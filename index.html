@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Presentation</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/moon.css">
+		<link rel="stylesheet" href="css/custom.scss">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>WEBSOCKET</h1></section>
+				<section>
+
+				<section>
+					<h4>What is WebSocket?</h4>
+					<p class="fragment">Initially called TCPConnection, the WebSocket interface made its way into the HTML5 
+						specification, which was first released as a draft in January 2008. The WebSocket 
+						protocol was standardized in 2011.</p>
+						<h4 class="fragment">WebSocket is :</h4>
+							<ul class="fragment">
+								<li>bidirectional</li>
+								<li>full-duplex</li>
+								<li>persistent</li>
+							</ul>
+				</section>
+	
+					<section>
+						<section><img data-src="img/http.webp"></section>
+					</section>
+					<section>
+						<section><img data-src="img/WebSocket.gif"></section>
+					</section>
+				</section>
+				<section>
+					<h3>Comparing WebSockets and HTTP</h3>
+					<img data-src="img/diffs.png">
+				</section>
+				<section>
+					<h2>URI schemes and syntax</h2>
+					<br>
+					<ul>
+						<li>ws, used for unencrypted connections.</li>
+						<li>wss, used for secure, encrypted connections over Transport Layer Security (TLS).</li>
+					</ul>
+					<br>
+					<br>
+					<img data-src="img/URI.png">
+				</section>
+				<section>
+					<h2>Opening handshake</h2>
+					<div >
+						<section style="text-align: left; float: left;"> Client request
+							<pre>
+								<code data-trim data-noescape>
+									GET wss://example.com:8181/ HTTP/1.1
+									Host: localhost: 8181
+									Connection: Upgrade
+									Upgrade: websocket
+									Sec-WebSocket-Version: 13
+									Sec-WebSocket-Key: zy6Dy9mSAIM7GJZNf9rI1A==
+								</code>
+							</pre>
+						</section>
+						<section style="text-align: right; float: right;">Server response
+							<pre>
+								<code data-trim data-noescape>
+									HTTP/1.1 101 Switching Protocols
+									Connection: Upgrade
+									Sec-WebSocket-Accept: EDJa7WCAQQzMCYNJM42Syuo9SqQ=
+									Upgrade: websocket
+								</code>
+							</pre>        
+						</section>
+					</div>
+				</section>
+				<section>
+					<h3>Closing handshake</h3>
+				</section>
+				<section>
+					<h3>The WebSocket constructor</h3>
+					<pre style="display: flex; justify-content: center;">
+						<code data-trim data-noescape>
+							const socket = new WebSocket('wss://example.org');
+						</code>
+					</pre>      
+				</section>
+				<section>
+					<h3>Events</h3>
+					<ul>
+						<li>open</li>
+						<pre style=" justify-content: center; width: auto;">
+						<code ><script type="text/template">
+				// Connection opened
+				socket.onopen = function(e) {
+				console.log('Connection open!');
+				};	
+							</script>
+						</code>
+						</pre>
+						<li>message</li>
+						<pre style="justify-content: center; width: auto;">
+							<code ><script type="text/template">
+				socket.onmessage = function(msg) {
+					if(msg.data instanceof ArrayBuffer) {
+						processArrayBuffer(msg.data);
+					} else {
+						processText(msg.data);
+					}
+				}</script>	
+							</code>
+						</pre>
+					</ul>
+				</section>
+				<section>
+					<h3>Events</h3>
+					<ul>
+						<li>error</li>
+						<pre style="justify-content: center; width: auto;">
+							<code ><script type="text/template">
+				socket.onerror = function(e) {
+					console.log('WebSocket failure', e);
+					handleErrors(e);
+				};</script>	
+							</code>
+						</pre>
+						<li>close</li>
+						<pre style="justify-content: center; width: auto;">
+							<code  ><script type="text/template">
+				socket.onclose = function(e) {
+					console.log('Connection closed', e);
+				};</script>	
+							</code>
+						</pre>
+					</ul>			
+				</section>
+				<section>
+					<h3>Methods</h3>
+					<ul>
+						<li>send()</li>
+						<pre style="justify-content: center; width: auto;">
+						<code><script type="text/template">
+							socket.onopen = function(e) {
+								socket.send(JSON.stringify({'msg': 'payload'}));
+							}</script>	
+						</code></pre>
+						<li>close()</li>
+						<pre style="justify-content: center; width: auto;">
+						<code><script type="text/template">
+							socket.close();</script>	
+						</code>
+						<code><script type="text/template">
+							socket.close(1003, 'Unsupported data type!');</script>	
+						</code></pre>
+					</ul>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
