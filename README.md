@@ -1,5 +1,4 @@
 # Presentation
-=
 
 
 ## Link to youtube recording:
